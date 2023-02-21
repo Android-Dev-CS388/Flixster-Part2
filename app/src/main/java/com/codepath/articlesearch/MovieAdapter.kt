@@ -10,25 +10,25 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-const val ARTICLE_EXTRA = "ARTICLE_EXTRA"
-private const val TAG = "ArticleAdapter"
+const val MOVIE_EXTRA = "MOVIE_EXTRA"
+private const val TAG = "MovieAdapter"
 
-class ArticleAdapter(private val context: Context, private val articles: List<Article>) :
-    RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
+class MovieAdapter(private val context: Context, private val movies: List<Movie>) :
+    RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_article, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // TODO: Get the individual article and bind to holder
-        val article = articles[position]
-        holder.bind(article)
+        val movie = movies[position]
+        holder.bind(movie)
     }
 
-    override fun getItemCount() = articles.size
+    override fun getItemCount() = movies.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
@@ -42,20 +42,20 @@ class ArticleAdapter(private val context: Context, private val articles: List<Ar
         }
 
         // TODO: Write a helper method to help set up the onBindViewHolder method
-        fun bind(article: Article) {
-            titleTextView.text = article.headline?.main
-            abstractTextView.text = article.abstract
+        fun bind(movie: Movie) {
+            titleTextView.text = movie.title
+            abstractTextView.text = movie.overview
 
             Glide.with(context)
-                .load(article.mediaImageUrl)
+                .load("https://image.tmdb.org/t/p/w500" +  movie.poster_path)
                 .into(mediaImageView)
         }
         override fun onClick(v: View?) {
             // TODO: Get selected article
-            val article = articles[absoluteAdapterPosition]
+            val movie = movies[absoluteAdapterPosition]
             // TODO: Navigate to Details screen and pass selected article
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra(ARTICLE_EXTRA, article)
+            intent.putExtra(MOVIE_EXTRA, movie)
             context.startActivity(intent)
         }
 
